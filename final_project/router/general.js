@@ -68,7 +68,7 @@ public_users.get('/title/:title', function (req, res) {
 });
 
 //  Get book review
-ppublic_users.get('/review/:isbn', function (req, res) {
+public_users.get('/review/:isbn', function (req, res) {
     const { isbn } = req.params;
     const book = books[isbn]; // Busca o livro pelo ISBN
 
@@ -79,4 +79,6 @@ ppublic_users.get('/review/:isbn', function (req, res) {
     }
 });
 
+
 module.exports.general = public_users;
+// Note: The above code assumes that the books database is structured as an object with ISBNs as keys.
