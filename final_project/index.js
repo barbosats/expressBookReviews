@@ -11,8 +11,24 @@ const secretKey = "seuSegredoSuperSeguro"; // Chave para gerar e validar tokens 
 const customer_routes = require('./router/auth_users.js').authenticated;
 const genl_routes = require('./router/general.js').general;
 
+const booksDB = require("./router/booksdb");  // <<--- Agora importamos o seu banco de livros direto
 
 const app = express();
+
+const axios = require("axios");
+
+const getBooks = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/books");
+        console.log("Lista de livros disponíveis:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao obter a lista de livros:", error.message);
+        throw error;
+    }
+};
+
+// getBooks(); 
 
 // Middleware para permitir JSON nas requisições
 app.use(express.json());
@@ -43,6 +59,22 @@ app.use("/customer/auth/*", function auth(req, res, next) {
 
 
 // Definição de rotas
+
+app.get("/", (req, res) => {
+    res.send("🚀 Servidor está rodando!");
+});
+
+app.get("/books", (req, res) => {
+    try {
+        res.status(200).json(booksDB); // 🔹 Retorna a lista de livros diretamente
+    } catch (error) {
+        console.error("Erro ao obter a lista de livros:", error.message);
+        res.status(500).json({ message: "Erro ao obter a lista de livros." });
+    }
+});
+
+
+
 app.use("/customer", auth_users.authenticated);
 app.use("/", general_routes.general); //Rotas públicas
 
