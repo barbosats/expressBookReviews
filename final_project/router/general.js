@@ -15,6 +15,16 @@ function getBooksAsync() {
     });
 }
 
+// GET books by author (com async/await)
+public_users.get('/author/:author', async (req, res) => {
+    try {
+        const booksByAuthor = await getBooksByAuthorAsync(req.params.author);
+        res.status(200).json(booksByAuthor);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+});
+
 // Função auxiliar para buscar livro por ISBN
 function getBookByISBNAsync(isbn) {
     return new Promise((resolve, reject) => {
@@ -50,6 +60,17 @@ function getBookByTitleAsync(title) {
         }
     });
 }
+
+// GET book details by title (com async/await)
+public_users.get('/title/:title', async (req, res) => {
+    try {
+        const bookByTitle = await getBookByTitleAsync(req.params.title);
+        res.status(200).json(bookByTitle);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+});
+
 
 // Registro de usuário (mantive igual porque não precisa ser assíncrono)
 public_users.post('/register', (req, res) => {

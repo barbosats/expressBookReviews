@@ -74,10 +74,9 @@ app.get("/books", (req, res) => {
 });
 
 
-
 app.use("/customer", auth_users.authenticated);
 app.use("/", general_routes.general); //Rotas públicas
 
 const PORT =5000;
 app.listen(PORT, () => 
-console.log("Servidor rodando na porta " + PORT));
+console.log("Servidor rodando na porta " + PORT));  
